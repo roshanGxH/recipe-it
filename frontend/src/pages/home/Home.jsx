@@ -17,7 +17,7 @@ const Home = () => {
   const fetchRecipes = async () => {
     setLoading(true);
     try {
-      const url = new URL(`${API_URL}/recipes`);
+      const url = new URL(`${API_URL}/recipes`, window.location.origin);
       if (selectedCategory && selectedCategory !== 'all') {
         url.searchParams.append('category', selectedCategory);
       }

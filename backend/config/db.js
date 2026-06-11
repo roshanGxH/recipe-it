@@ -2,11 +2,18 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/recipeit');
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+      console.warn("WARNING: MONGO_URI environment variable is not defined! Falling back to localhost.");
+    } else {
+      const maskedUri = uri.replace(/:([^:@]+)@/, ':****@');
+      console.log(`Attempting to connect to MongoDB using URI: ${maskedUri}`);
+    }
+    const conn = await mongoose.connect(uri || 'mongodb://localhost:27017/recipeit');
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
+    console.error(`MongoDB connection error: ${error.message}`);
+    throw error;
   }
 };
 

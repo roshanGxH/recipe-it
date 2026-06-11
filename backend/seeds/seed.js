@@ -1,4 +1,6 @@
 require('dotenv').config({ path: __dirname + '/../.env' });
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
